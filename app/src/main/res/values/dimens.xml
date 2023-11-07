@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="list_item_height">64dp</dimen>
+    <dimen name="margin_medium">12dp</dimen>
+</resources>
