@@ -34,4 +34,8 @@
     <string name="Workload">"Carga Horária: "</string>
     <string name="Credits">"Créditos: "</string>
     <string name="NumberOfVacancies">Número de Vagas:</string>
+    <string name="AddSubject">Cadastrar Disciplinas</string>
+    <string name="Description">Descrição</string>
+    <string name="Add">Cadastrar</string>
+    <string name="cancel">Cancelar</string>
 </resources>

@@ -18,5 +18,14 @@
         android:id="@+id/SubjectListFragment"
         android:name="com.example.rit_system.SubjectListFragment"
         android:label="fragment_subject_list"
-        tools:layout="@layout/fragment_subject_list" />
+        tools:layout="@layout/fragment_subject_list" >
+        <action
+            android:id="@+id/action_SubjectListFragment_to_subjectFormFragment"
+            app:destination="@id/SubjectFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SubjectFormFragment"
+        android:name="com.example.rit_system.forms.SubjectFormFragment"
+        android:label="fragment_subject_form"
+        tools:layout="@layout/fragment_subject_form" />
 </navigation>
