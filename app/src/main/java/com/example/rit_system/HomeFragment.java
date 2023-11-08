@@ -101,6 +101,10 @@ public class HomeFragment extends Fragment {
                 CoordinationActivityListFragment coordinationActivityListFragment = new CoordinationActivityListFragment();
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.ActivityMain, coordinationActivityListFragment).commit();
+            } else if (position == 3) {
+                PapersListFragment papersListFragment = new PapersListFragment();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.ActivityMain, papersListFragment).commit();
             }
         }));
     }

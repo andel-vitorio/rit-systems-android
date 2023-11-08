@@ -20,12 +20,14 @@ import com.example.rit_system.HomeFragment;
 import com.example.rit_system.PapersListFragment;
 import com.example.rit_system.R;
 import com.example.rit_system.bottom_sheets.PaperInfoFragment;
+import com.example.rit_system.dao.PaperDAO;
 import com.example.rit_system.entities.Paper;
 import com.example.rit_system.models.SharedViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Objects;
@@ -97,7 +99,13 @@ public class PaperFormFragment extends Fragment {
         });
 
         if (paper != null) {
-  //          ((TextInputEditText) view.findViewById(R.id.InputPaperCode)).setText(paper.getCode());
+            ((TextInputEditText) view.findViewById(R.id.InputPaperTitle)).setText(paper.getTitle());
+            ((TextInputEditText) view.findViewById(R.id.InputKeyWord)).setText(paper.getKeywords());
+            ((TextInputEditText) view.findViewById(R.id.InputPublicationDate)).setText(paper.getPublicationDate().toString());
+            ((TextInputEditText) view.findViewById(R.id.InputAuthors)).setText(paper.getAuthors());
+            ((TextInputEditText) view.findViewById(R.id.InputAbstract)).setText(paper.getDescription());
+            ((TextInputEditText) view.findViewById(R.id.InputTopics)).setText(paper.getCategory());
+            ((TextInputEditText) view.findViewById(R.id.InputLink)).setText(paper.getUrl());
 
         }
 
@@ -108,60 +116,37 @@ public class PaperFormFragment extends Fragment {
         });
 
         view.findViewById(R.id.AddButton).setOnClickListener(v -> {
-            /*
-            String code = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputPaperCode)).getText());
-            String name = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputPaperName)).getText());
-            String description = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputPaperDescription)).getText());
-            LocalTime startHour = null, endHour = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                String startHourText = ((TextInputEditText) view.findViewById(R.id.InputStartHourPaper)).getText().toString();
-                String endHourText = ((TextInputEditText) view.findViewById(R.id.InputEndHourPaper)).getText().toString();
-
-                try {
-                    // Adicione os segundos e nanos segundos zerados
-                    startHour = LocalTime.parse(startHourText);
-                    endHour = LocalTime.parse(endHourText);
-                } catch (DateTimeParseException e) {
-                    // Trate exceções de formato inválido, se necessário
-                    Log.e("ConversionError", "Formato de hora inválido");
-                }
-            }
-
-            String classroom = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputClassroomPaper)).getText());
-            String teacherName = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputTeacherNamePaper)).getText());
-            String requirements = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputPrerequisites)).getText());
-            int courseLoad = Integer.valueOf(String.valueOf(((TextInputEditText) view.findViewById(R.id.InputCourseLoadPaper)).getText()));
-            int credits = Integer.valueOf(String.valueOf(((TextInputEditText) view.findViewById(R.id.InputCreditsPaper)).getText()));
-            int numberOfVancancies = Integer.valueOf(String.valueOf(((TextInputEditText) view.findViewById(R.id.InputNumberVancanciesPaper)).getText()));
 
             boolean isNew = (paper == null);
 
             if (isNew) paper = new Paper();
 
-            paper.setName(name);
-            paper.setCode(code);
-            paper.setDescription(description);
-            paper.setStartTime(startHour);
-            paper.setEndTime(endHour);
-            paper.setClassroom(classroom);
-            paper.setTeacherName(teacherName);
-            paper.setRequirements(requirements);
-            paper.setCourseLoad(courseLoad);
-            paper.setCredits(credits);
-            paper.setNumberOfVacancies(numberOfVancancies);
+            paper.setTitle(Objects.requireNonNull(((TextInputEditText) view.findViewById(R.id.InputPaperTitle)).getText()).toString());
+            paper.setKeywords(Objects.requireNonNull(((TextInputEditText) view.findViewById(R.id.InputKeyWord)).getText()).toString());
+
+            String publicationDateString = Objects.requireNonNull(((TextInputEditText) view.findViewById(R.id.InputPublicationDate)).getText()).toString();
+            LocalDate publicationDate = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                publicationDate = LocalDate.parse(publicationDateString);
+            }
+            paper.setPublicationDate(publicationDate);
+
+            paper.setAuthors(Objects.requireNonNull(((TextInputEditText) view.findViewById(R.id.InputAuthors)).getText()).toString());
+            paper.setDescription(Objects.requireNonNull(((TextInputEditText) view.findViewById(R.id.InputAbstract)).getText()).toString());
+            paper.setCategory(Objects.requireNonNull(((TextInputEditText) view.findViewById(R.id.InputTopics)).getText()).toString());
+            paper.setUrl(Objects.requireNonNull(((TextInputEditText) view.findViewById(R.id.InputLink)).getText()).toString());
 
             PaperDAO paperDAO = new PaperDAO(getContext());
-            if(isNew) paperDAO.add(paper);
-            else paperDAO.update(paper);
+            if(isNew) paperDAO.addPaper(paper);
+            else paperDAO.updatePaper(paper.getId(), paper);
 
             SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
             viewModel.setItemIndex(0);
 
-            PaperListFragment paperListFragment = new PaperListFragment();
+            PapersListFragment paperListFragment = new PapersListFragment();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.ActivityMain, paperListFragment).commit();
 
-             */
         });
     }
 }

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rit_system.R;
+import com.example.rit_system.dao.PaperDAO;
 import com.example.rit_system.entities.Paper;
 import com.example.rit_system.forms.PaperFormFragment;
 import com.example.rit_system.models.SharedViewModel;
@@ -85,26 +86,26 @@ public class PaperInfoFragment extends BottomSheetDialogFragment {
 
         if (paper != null) {
             Log.d("Paper", paper.toString());
+            ((TextView) view.findViewById(R.id.PaperTitle)).setText(paper.getTitle());
+            ((TextView) view.findViewById(R.id.PublicationDate)).setText(paper.getPublicationDate().toString());
+            ((TextView) view.findViewById(R.id.KeyWords)).setText(paper.getKeywords());
+            ((TextView) view.findViewById(R.id.Abstract)).setText(paper.getDescription());
+            ((TextView) view.findViewById(R.id.Topics)).setText(paper.getCategory());
+            ((TextView) view.findViewById(R.id.Link)).setText(paper.getUrl());
         }
 
         view.findViewById(R.id.EditButton).setOnClickListener(v -> {
-            /*
             PaperFormFragment paperFormFragment = PaperFormFragment.newInstance(paper);
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.ActivityMain, paperFormFragment).commit();
-
-             */
         });
 
         view.findViewById(R.id.DeleteButton).setOnClickListener(v -> {
-            /*
             PaperDAO paperDAO = new PaperDAO(getContext());
-            paperDAO.delete(String.valueOf(paper.getId()));
+            paperDAO.deletePaperById(paper.getId());
             SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
             viewModel.setItemIndex(position);
             dismiss();
-
-             */
         });
     }
 }

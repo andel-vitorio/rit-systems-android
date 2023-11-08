@@ -126,6 +126,27 @@ public class Database extends SQLiteOpenHelper {
             "('Atividade 9', 'Responsável 9', 1680183600000, 1680446400000, 'Baixa', 'Pendente', 'Descrição 9')," +
             "('Atividade 10', 'Responsável 10', 1680530000000, 1680792800000, 'Alta', 'Concluída', 'Descrição 10');";
 
+    private static final String SQL_CREATE_PAPER = "CREATE TABLE papers (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "title TEXT," +
+            "authors TEXT," +
+            "publicationDate INTEGER," +
+            "keywords TEXT," +
+            "description TEXT," +
+            "category TEXT," +
+            "url TEXT" +
+            ")";
+
+    private static final String SQL_POPULATE_PAPER = "INSERT INTO papers (title, authors, publicationDate, keywords, description, category, url)" +
+            "VALUES" +
+            "('Paper 1', 'Author 1', 1677298800000, 'Keyword 1', 'Description 1', 'Category 1', 'http://example.com/paper1')," +
+            "('Paper 2', 'Author 2', 1677753600000, 'Keyword 2', 'Description 2', 'Category 2', 'http://example.com/paper2')," +
+            "('Paper 3', 'Author 3', 1678100400000, 'Keyword 3', 'Description 3', 'Category 1', 'http://example.com/paper3')," +
+            "('Paper 4', 'Author 4', 1678446800000, 'Keyword 4', 'Description 4', 'Category 2', 'http://example.com/paper4')," +
+            "('Paper 5', 'Author 5', 1678793200000, 'Keyword 5', 'Description 5', 'Category 1', 'http://example.com/paper5')," +
+            "('Paper 6', 'Author 6', 1679146800000, 'Keyword 6', 'Description 6', 'Category 2', 'http://example.com/paper6');";
+
+    private static final String SQL_DELETE_PAPER = "DROP TABLE IF EXISTS papers";
     private static final String SQL_DELETE_PASS_SUBJECT = "DROP TABLE IF EXISTS teacher";
     private static final String SQL_DELETE_PASS_UNDERGRADUATE = "DROP TABLE IF EXISTS undergraduate_students";
     private static final String SQL_DELETE_PASS_GRADUATE = "DROP TABLE IF EXISTS graduate_students";
@@ -147,6 +168,9 @@ public class Database extends SQLiteOpenHelper {
 
         db.execSQL(SQL_CREATE_COORDINATION_ACTIVITIES);
         db.execSQL(SQL_POPULATE_COORDINATION_ACTIVITIES);
+
+        db.execSQL(SQL_CREATE_PAPER);
+        db.execSQL(SQL_POPULATE_PAPER);
     }
 
     public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
@@ -154,6 +178,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_PASS_UNDERGRADUATE);
         db.execSQL(SQL_DELETE_PASS_GRADUATE);
         db.execSQL(SQL_DELETE_PASS_COORDINATION_ACTIVITIES);
+        db.execSQL(SQL_DELETE_PAPER);
         onCreate(db);
     }
 }

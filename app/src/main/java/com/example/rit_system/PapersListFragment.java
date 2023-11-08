@@ -14,6 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rit_system.adapters.PaperRecyclerViewAdapter;
+import com.example.rit_system.bottom_sheets.PaperInfoFragment;
+import com.example.rit_system.dao.PaperDAO;
+import com.example.rit_system.entities.Paper;
 import com.example.rit_system.forms.PaperFormFragment;
 import com.example.rit_system.models.SharedViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -71,7 +75,7 @@ public class PapersListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_student_list, container, false);
+        return inflater.inflate(R.layout.fragment_papers_list_fragment, container, false);
     }
 
     @Override
@@ -94,45 +98,25 @@ public class PapersListFragment extends Fragment {
             return false;
         });
 
-        /*
-        GraduatePapersDAO graduatePapersDAO = new GraduatePapersDAO(getContext());
-        ArrayList<GraduatePapers> graduatePaperss = graduatePapersDAO.getGraduatePaperss();
 
-        UndergraduatePapersDAO undergraduatePapersDAO = new UndergraduatePapersDAO(getContext());
-        ArrayList<UndergraduatePapers> undergraduatePaperss = undergraduatePapersDAO.getUndergraduatePaperss();
-
-        ArrayList<Papers> students = new ArrayList<>();
-
-        if (undergraduatePaperss != null) {
-            students.addAll(undergraduatePaperss);
-        }
-
-        if (graduatePaperss != null) {
-            students.addAll(graduatePaperss);
-        }
+        PaperDAO paperDAO = new PaperDAO(getContext());
+        ArrayList<Paper> papers = paperDAO.getPapers();
 
 
-        PapersRecyclerViewAdapter studentRecyclerViewAdapter = new PapersRecyclerViewAdapter(students, position -> {
-            if (students.get(position) instanceof GraduatePapers) {
-                GraduatePapersInfoFragment graduatePapersInfoFragment = GraduatePapersInfoFragment.newInstance( (GraduatePapers) students.get(position), position);
-                graduatePapersInfoFragment.show(getChildFragmentManager(), GraduatePapersInfoFragment.TAG);
-            } else {
-                UndergraduatePapersInfoFragment undergraduatePapersInfoFragment = UndergraduatePapersInfoFragment.newInstance( (UndergraduatePapers) students.get(position), position);
-                undergraduatePapersInfoFragment.show(getChildFragmentManager(), UndergraduatePapersInfoFragment.TAG);
-            }
+        PaperRecyclerViewAdapter paperRecyclerViewAdapter = new PaperRecyclerViewAdapter(papers, position -> {
+            PaperInfoFragment paperInfoFragment = PaperInfoFragment.newInstance(papers.get(position), position);
+            paperInfoFragment.show(getChildFragmentManager(), PaperInfoFragment.TAG);
         });
 
         SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         viewModel.getItemIndex().observe(getViewLifecycleOwner(), position -> {
-            studentRecyclerViewAdapter.update(getContext());
-            studentRecyclerViewAdapter.notifyItemRemoved(position);
+            paperRecyclerViewAdapter.update(getContext());
+            paperRecyclerViewAdapter.notifyItemRemoved(position);
         });
 
         RecyclerView recyclerView = view.findViewById(R.id.SubjectListRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(studentRecyclerViewAdapter);
-
-         */
+        recyclerView.setAdapter(paperRecyclerViewAdapter);
 
     }
 }

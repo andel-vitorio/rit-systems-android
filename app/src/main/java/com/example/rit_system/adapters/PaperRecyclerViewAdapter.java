@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rit_system.R;
+import com.example.rit_system.dao.PaperDAO;
 import com.example.rit_system.dao.SubjectDAO;
 import com.example.rit_system.entities.Paper;
 import com.example.rit_system.entities.Subject;
@@ -27,21 +28,8 @@ public class PaperRecyclerViewAdapter extends RecyclerView.Adapter<PaperRecycler
     private final OnItemClickListener listener;
 
     public void update(Context context) {
-        /*GraduatePaperDAO graduatePaperDAO = new GraduatePaperDAO(context);
-        ArrayList<GraduatePaper> graduatePapers = graduatePaperDAO.getGraduatePapers();
-
-        UndergraduatePaperDAO undergraduatePaperDAO = new UndergraduatePaperDAO(context);
-        ArrayList<UndergraduatePaper> undergraduatePapers = undergraduatePaperDAO.getUndergraduatePapers();
-
-        papers = new ArrayList<>();
-
-        if (undergraduatePapers != null) {
-            papers.addAll(undergraduatePapers);
-        }
-
-        if (graduatePapers != null) {
-            papers.addAll(graduatePapers);
-        }*/
+        PaperDAO paperDAO = new PaperDAO(context);
+        papers = paperDAO.getPapers();
     }
 
 
