@@ -10,6 +10,12 @@
     <string name="home_label"> Início </string>
     <string name="teachers_label"> Professores </string>
     <string name="activities_label"> Atividades </string>
+    <string name="subjects_label"> Disciplinas </string>
+
+    <string name="search">Pesquisar</string>
+    <string name="add">Adicionar</string>
 
     <string name="item_text">Item</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

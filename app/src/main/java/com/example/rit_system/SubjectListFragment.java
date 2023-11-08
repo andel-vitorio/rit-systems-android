@@ -15,16 +15,13 @@ import android.view.ViewGroup;
 
 import com.example.rit_system.adapters.MenuRecyclerViewAdapter;
 import com.example.rit_system.adapters.SubjectRecyclerViewAdapter;
-import com.example.rit_system.databinding.FragmentHomeBinding;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link SubjectListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
-
-    private FragmentHomeBinding binding;
+public class SubjectListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +32,7 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public HomeFragment() {
+    public SubjectListFragment() {
         // Required empty public constructor
     }
 
@@ -45,11 +42,11 @@ public class HomeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment SubjectListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static SubjectListFragment newInstance(String param1, String param2) {
+        SubjectListFragment fragment = new SubjectListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -70,27 +67,21 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        return inflater.inflate(R.layout.fragment_subject_list, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MenuRecyclerViewAdapter.MenuDataset[] dataset = new MenuRecyclerViewAdapter.MenuDataset[4];
+        SubjectRecyclerViewAdapter.SubjectDataset[] dataset = new SubjectRecyclerViewAdapter.SubjectDataset[20];
+        for (int i = 0; i < 20; i++)
+        dataset[i] = new SubjectRecyclerViewAdapter.SubjectDataset("Cálculo I");
 
-        dataset[0] = new MenuRecyclerViewAdapter.MenuDataset("Disciplinas", R.drawable.subject_icon);
-        dataset[1] = new MenuRecyclerViewAdapter.MenuDataset("Estudantes", R.drawable.student_icon);
-        dataset[2] = new MenuRecyclerViewAdapter.MenuDataset("Atividades da Coordenação", R.drawable.activity_icon);
-        dataset[3] = new MenuRecyclerViewAdapter.MenuDataset("Artigos Publicados", R.drawable.paper_icon);
-
-        RecyclerView recyclerView = view.findViewById(R.id.menuRv);
+        RecyclerView recyclerView = view.findViewById(R.id.SubjectListRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new MenuRecyclerViewAdapter(dataset, position -> {
+        recyclerView.setAdapter(new SubjectRecyclerViewAdapter(dataset, position -> {
             if (position == 0) {
-                NavHostFragment.findNavController(HomeFragment.this)
-                        .navigate(R.id.action_HomeFragment_to_subjectListFragment);
             }
         }));
     }

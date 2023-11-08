@@ -10,5 +10,13 @@
         android:name="com.example.rit_system.HomeFragment"
         android:label="Home Screen"
         tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_HomeFragment_to_subjectListFragment"
+            app:destination="@id/SubjectListFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/SubjectListFragment"
+        android:name="com.example.rit_system.SubjectListFragment"
+        android:label="fragment_subject_list"
+        tools:layout="@layout/fragment_subject_list" />
 </navigation>

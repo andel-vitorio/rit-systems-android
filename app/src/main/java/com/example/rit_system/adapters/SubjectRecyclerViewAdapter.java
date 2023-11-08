@@ -12,37 +12,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rit_system.R;
 
-import org.w3c.dom.Text;
+public class SubjectRecyclerViewAdapter extends RecyclerView.Adapter<SubjectRecyclerViewAdapter.ViewHolder> {
 
-public class MenuRecycleViewAdapter extends RecyclerView.Adapter<MenuRecycleViewAdapter.ViewHolder> {
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+    private final SubjectDataset[] localDataSet;
+    private OnItemClickListener listener;
 
-    private final MenuDataset[] localDataSet;
+    public static class SubjectDataset {
+        private String name;
+        public SubjectDataset() {}
 
-    public static class MenuDataset {
-        private String label;
-        private int iconId;
-
-        public MenuDataset() {}
-
-        public MenuDataset(String label, int iconId) {
-            this.iconId = iconId;
-            this.label = label;
+        public SubjectDataset(String label) {
+            this.name = label;
         }
 
-        public void setIconId(int iconId) {
-            this.iconId = iconId;
+        public void setName(String name) {
+            this.name = name;
         }
 
-        public void setLabel(String label) {
-            this.label = label;
-        }
-
-        public int getIconId() {
-            return iconId;
-        }
-
-        public String getLabel() {
-            return label;
+        public String getName() {
+            return name;
         }
     }
 
@@ -72,8 +63,9 @@ public class MenuRecycleViewAdapter extends RecyclerView.Adapter<MenuRecycleView
         }
     }
 
-    public MenuRecycleViewAdapter(MenuDataset[] dataSet) {
+    public SubjectRecyclerViewAdapter(SubjectDataset[] dataSet, OnItemClickListener listener) {
         localDataSet = dataSet;
+        this.listener = listener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -82,7 +74,7 @@ public class MenuRecycleViewAdapter extends RecyclerView.Adapter<MenuRecycleView
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.menu_item, viewGroup, false);
+                .inflate(R.layout.item_list, viewGroup, false);
 
         return new ViewHolder(view);
     }
@@ -95,8 +87,13 @@ public class MenuRecycleViewAdapter extends RecyclerView.Adapter<MenuRecycleView
         // contents of the view with that element
         Log.d("AdapterDebug", "Binding view at position: " + position);
 
-        viewHolder.getLabel().setText(localDataSet[position].getLabel());
-        viewHolder.getIcon().setImageResource(localDataSet[position].getIconId());
+        viewHolder.getLabel().setText(localDataSet[position].getName());
+
+        viewHolder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(position);
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)

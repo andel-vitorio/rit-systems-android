@@ -5,13 +5,15 @@
     android:id="@+id/logo_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#141218"
     tools:context=".HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:theme="@style/Theme.Ritsystem">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/header_container"
@@ -93,7 +95,7 @@
                     style="@style/Widget.Material3.BottomNavigationView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#2A2831"
+                    android:background="#1D1B20"
                     android:orientation="vertical"
                     android:paddingLeft="24dp"
                     android:paddingTop="32dp"
