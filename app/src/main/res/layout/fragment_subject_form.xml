@@ -190,6 +190,7 @@
                     android:hint="@string/TeacherName">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/InputTeacherNameSubject"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
@@ -219,7 +220,7 @@
                     android:hint="@string/PreRequisites">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/InputTeacherNameSubject"
+                        android:id="@+id/InputPrerequisites"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto"
@@ -240,7 +241,7 @@
                         android:hint="@string/Workload">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/InputWorkLoadSubject"
+                            android:id="@+id/InputCourseLoadSubject"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto"
@@ -317,7 +318,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="@string/Add"
+                    android:text="@string/Confirm"
                     android:textAllCaps="true"
                     android:textSize="12sp" />
             </LinearLayout>

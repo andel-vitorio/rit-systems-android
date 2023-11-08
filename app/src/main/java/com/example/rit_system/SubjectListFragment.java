@@ -5,18 +5,24 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rit_system.adapters.MenuRecyclerViewAdapter;
 import com.example.rit_system.adapters.SubjectRecyclerViewAdapter;
 import com.example.rit_system.bottom_sheets.SubjectInfoFragment;
+import com.example.rit_system.dao.SubjectDAO;
+import com.example.rit_system.entities.Subject;
+import com.example.rit_system.forms.SubjectFormFragment;
+import com.example.rit_system.models.SharedViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,16 +82,39 @@ public class SubjectListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SubjectRecyclerViewAdapter.SubjectDataset[] dataset = new SubjectRecyclerViewAdapter.SubjectDataset[20];
-        for (int i = 0; i < 20; i++) {
-            dataset[i] = new SubjectRecyclerViewAdapter.SubjectDataset("Cálculo I");
-        }
+        ((MaterialToolbar) view.findViewById(R.id.topAppBar)).setNavigationOnClickListener(v -> {
+            HomeFragment homeFragment = new HomeFragment();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.ActivityMain, homeFragment).commit();
+        });
+
+        ((MaterialToolbar) view.findViewById(R.id.topAppBar)).setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.add) {
+                SubjectFormFragment subjectFormFragment = SubjectFormFragment.newInstance(null);
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.ActivityMain, subjectFormFragment).commit();
+                return true;
+            }
+            return false;
+        });
+
+        SubjectDAO subjectDAO = new SubjectDAO(getContext());
+        ArrayList<Subject> subjects = subjectDAO.getList();
+
+        SubjectRecyclerViewAdapter subjectRecyclerViewAdapter = new SubjectRecyclerViewAdapter(subjects, position -> {
+            SubjectInfoFragment subjectInfoFragment = SubjectInfoFragment.newInstance(subjects.get(position), position);
+            subjectInfoFragment.show(getChildFragmentManager(), SubjectInfoFragment.TAG);
+        });
+
+        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel.getItemIndex().observe(getViewLifecycleOwner(), position -> {
+            subjectRecyclerViewAdapter.update(getContext());
+            subjectRecyclerViewAdapter.notifyItemRemoved(position);
+        });
 
         RecyclerView recyclerView = view.findViewById(R.id.SubjectListRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new SubjectRecyclerViewAdapter(dataset, position -> {
-            Log.d("Debug", "Abrir modal");
-            new SubjectInfoFragment().show(getChildFragmentManager(), SubjectInfoFragment.TAG);
-        }));
+        recyclerView.setAdapter(subjectRecyclerViewAdapter);
+
     }
 }

@@ -2,6 +2,7 @@ package com.example.rit_system;
 
 import android.os.Bundle;
 
+import com.example.rit_system.forms.SubjectFormFragment;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import androidx.core.view.WindowCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
@@ -35,13 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationBarView navigationBarView = findViewById(R.id.bottom_navigation);
         navigationBarView.setOnItemSelectedListener(item -> {
-            NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main);
-            assert navHostFragment != null;
-            NavController navController = navHostFragment.getNavController();
 
             int id = item.getItemId();
             if (id == R.id.home_menu_item) {
-                navController.navigate(R.id.HomeFragment);
+                HomeFragment homeFragment = new HomeFragment();
+                FragmentManager fragmentManager = this.getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.ActivityMain, homeFragment).commit();
                 return true;
             }
             else if ( id == R.id.teacher_menu_item) {

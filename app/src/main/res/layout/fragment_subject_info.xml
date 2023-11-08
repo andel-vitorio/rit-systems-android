@@ -287,17 +287,15 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/WorkLoad"
+                    android:id="@+id/CourseLoad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_weight="0"
                     android:fontFamily="@font/roboto_light"
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -317,7 +315,6 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/textView9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"

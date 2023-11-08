@@ -4,15 +4,24 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.rit_system.R;
+import com.example.rit_system.dao.SubjectDAO;
+import com.example.rit_system.entities.Subject;
 import com.example.rit_system.forms.SubjectFormFragment;
+import com.example.rit_system.models.SharedViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 /**
@@ -26,12 +35,12 @@ public class SubjectInfoFragment extends BottomSheetDialogFragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "subject";
+    private static final String ARG_PARAM2 = "position";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Subject subject;
+    private int position;
 
     public SubjectInfoFragment() {
         // Required empty public constructor
@@ -41,16 +50,16 @@ public class SubjectInfoFragment extends BottomSheetDialogFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param subject Parameter 1.
+     * @param position Parameter 2.
      * @return A new instance of fragment SubjectInfoFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SubjectInfoFragment newInstance(String param1, String param2) {
+    public static SubjectInfoFragment newInstance(Subject subject, int position) {
         SubjectInfoFragment fragment = new SubjectInfoFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(ARG_PARAM1, subject);
+        args.putInt(ARG_PARAM2, position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,8 +68,8 @@ public class SubjectInfoFragment extends BottomSheetDialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            subject = (Subject) getArguments().getSerializable(ARG_PARAM1);
+            position = getArguments().getInt(ARG_PARAM2);
         }
     }
 
@@ -75,6 +84,33 @@ public class SubjectInfoFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.EditButton).setOnClickListener(v -> NavHostFragment.findNavController(SubjectInfoFragment.this).navigate(R.id.SubjectFormFragment));
+        if (subject != null) {
+            Log.d("Subject", subject.toString());
+
+            ((TextView) (view.findViewById(R.id.SubjectCode))).setText(subject.getCode());
+            ((TextView) (view.findViewById(R.id.SubjectName))).setText(subject.getName());
+            ((TextView) (view.findViewById(R.id.StartHour))).setText(subject.getStartTime().toString());
+            ((TextView) (view.findViewById(R.id.EndHour))).setText(subject.getEndTime().toString());
+            ((TextView) (view.findViewById(R.id.Classroom))).setText(subject.getClassroom());
+            ((TextView) (view.findViewById(R.id.TeacherName))).setText(subject.getTeacherName());
+            ((TextView) (view.findViewById(R.id.CourseLoad))).setText(String.valueOf(subject.getCourseLoad()));
+            ((TextView) view.findViewById(R.id.PreRequisites)).setText(subject.getRequirements());
+            ((TextView) view.findViewById(R.id.Credits)).setText(String.valueOf(subject.getCredits()));
+            ((TextView) view.findViewById(R.id.NumberOfVacancies)).setText( String.valueOf(subject.getNumberOfVacancies()));
+        }
+
+        view.findViewById(R.id.EditButton).setOnClickListener(v -> {
+            SubjectFormFragment subjectFormFragment = SubjectFormFragment.newInstance(subject);
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.ActivityMain, subjectFormFragment).commit();
+        });
+
+        view.findViewById(R.id.DeleteButton).setOnClickListener(v -> {
+            SubjectDAO subjectDAO = new SubjectDAO(getContext());
+            subjectDAO.delete(String.valueOf(subject.getId()));
+            SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+            viewModel.setItemIndex(position);
+            dismiss();
+        });
     }
 }

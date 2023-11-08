@@ -20,12 +20,28 @@
         android:label="fragment_subject_list"
         tools:layout="@layout/fragment_subject_list" >
         <action
-            android:id="@+id/action_SubjectListFragment_to_subjectFormFragment"
-            app:destination="@id/SubjectFormFragment" />
+            android:id="@+id/action_SubjectListFragment_to_SubjectInfoFragment"
+            app:destination="@id/SubjectInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/SubjectFormFragment"
         android:name="com.example.rit_system.forms.SubjectFormFragment"
         android:label="fragment_subject_form"
-        tools:layout="@layout/fragment_subject_form" />
+        tools:layout="@layout/fragment_subject_form" >
+        <action
+            android:id="@+id/action_SubjectFormFragment_to_SubjectInfoFragment"
+            app:destination="@id/SubjectInfoFragment" />
+        <action
+            android:id="@+id/action_SubjectFormFragment_to_SubjectListFragment"
+            app:destination="@id/SubjectListFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/SubjectInfoFragment"
+        android:name="com.example.rit_system.bottom_sheets.SubjectInfoFragment"
+        android:label="fragment_subject_info"
+        tools:layout="@layout/fragment_subject_info" >
+        <action
+            android:id="@+id/action_SubjectInfoFragment_to_SubjectFormFragment"
+            app:destination="@id/SubjectFormFragment" />
+    </dialog>
 </navigation>

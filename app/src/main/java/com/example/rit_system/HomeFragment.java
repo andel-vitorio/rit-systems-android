@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -89,8 +90,9 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new MenuRecyclerViewAdapter(dataset, position -> {
             if (position == 0) {
-                NavHostFragment.findNavController(HomeFragment.this)
-                        .navigate(R.id.action_HomeFragment_to_subjectListFragment);
+                SubjectListFragment subjectListFragment = new SubjectListFragment();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.ActivityMain, subjectListFragment).commit();
             }
         }));
     }

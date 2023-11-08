@@ -1,5 +1,6 @@
 package com.example.rit_system.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,30 +12,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rit_system.R;
+import com.example.rit_system.dao.SubjectDAO;
+import com.example.rit_system.entities.Subject;
+
+import java.util.ArrayList;
 
 public class SubjectRecyclerViewAdapter extends RecyclerView.Adapter<SubjectRecyclerViewAdapter.ViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
-    private final SubjectDataset[] localDataSet;
+    private ArrayList<Subject> subjects = new ArrayList<>();
     private OnItemClickListener listener;
 
-    public static class SubjectDataset {
-        private String name;
-        public SubjectDataset() {}
-
-        public SubjectDataset(String label) {
-            this.name = label;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
+    public void update(Context context) {
+        SubjectDAO subjectDAO = new SubjectDAO(context);
+        subjects = subjectDAO.getList();
     }
 
     /**
@@ -63,8 +56,8 @@ public class SubjectRecyclerViewAdapter extends RecyclerView.Adapter<SubjectRecy
         }
     }
 
-    public SubjectRecyclerViewAdapter(SubjectDataset[] dataSet, OnItemClickListener listener) {
-        localDataSet = dataSet;
+    public SubjectRecyclerViewAdapter(ArrayList<Subject> subjects, OnItemClickListener listener) {
+        this.subjects = subjects;
         this.listener = listener;
     }
 
@@ -87,7 +80,7 @@ public class SubjectRecyclerViewAdapter extends RecyclerView.Adapter<SubjectRecy
         // contents of the view with that element
         Log.d("AdapterDebug", "Binding view at position: " + position);
 
-        viewHolder.getLabel().setText(localDataSet[position].getName());
+        viewHolder.getLabel().setText(subjects.get(position).getName());
 
         viewHolder.itemView.setOnClickListener(v -> {
             if (listener != null) {
@@ -99,6 +92,6 @@ public class SubjectRecyclerViewAdapter extends RecyclerView.Adapter<SubjectRecy
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return subjects.size();
     }
 }
