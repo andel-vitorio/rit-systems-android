@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,18 +14,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rit_system.adapters.MenuRecyclerViewAdapter;
 import com.example.rit_system.adapters.SubjectRecyclerViewAdapter;
-import com.example.rit_system.databinding.FragmentHomeBinding;
+import com.example.rit_system.bottom_sheets.SubjectInfoFragment;
+import com.example.rit_system.dao.SubjectDAO;
+import com.example.rit_system.entities.Subject;
+import com.example.rit_system.forms.SubjectFormFragment;
+import com.example.rit_system.models.SharedViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
+ * Use the {@link SubjectListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
-
-    private FragmentHomeBinding binding;
+public class StudentListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,7 +40,7 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public HomeFragment() {
+    public StudentListFragment() {
         // Required empty public constructor
     }
 
@@ -46,11 +50,11 @@ public class HomeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
+     * @return A new instance of fragment SubjectListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
+    public static SubjectListFragment newInstance(String param1, String param2) {
+        SubjectListFragment fragment = new SubjectListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -71,33 +75,18 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        return inflater.inflate(R.layout.fragment_student_list, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MenuRecyclerViewAdapter.MenuDataset[] dataset = new MenuRecyclerViewAdapter.MenuDataset[4];
+        ((MaterialToolbar) view.findViewById(R.id.topAppBar)).setNavigationOnClickListener(v -> {
+            HomeFragment homeFragment = new HomeFragment();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.ActivityMain, homeFragment).commit();
+        });
 
-        dataset[0] = new MenuRecyclerViewAdapter.MenuDataset("Disciplinas", R.drawable.subject_icon);
-        dataset[1] = new MenuRecyclerViewAdapter.MenuDataset("Estudantes", R.drawable.student_icon);
-        dataset[2] = new MenuRecyclerViewAdapter.MenuDataset("Atividades da Coordenação", R.drawable.activity_icon);
-        dataset[3] = new MenuRecyclerViewAdapter.MenuDataset("Artigos Publicados", R.drawable.paper_icon);
-
-        RecyclerView recyclerView = view.findViewById(R.id.menuRv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new MenuRecyclerViewAdapter(dataset, position -> {
-            if (position == 0) {
-                SubjectListFragment subjectListFragment = new SubjectListFragment();
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.ActivityMain, subjectListFragment).commit();
-            } else if (position == 1) {
-                StudentListFragment studentListFragment = new StudentListFragment();
-                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.ActivityMain, studentListFragment).commit();
-            }
-        }));
     }
 }
