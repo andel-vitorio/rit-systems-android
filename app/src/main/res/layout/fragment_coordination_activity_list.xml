@@ -1,14 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Theme.Ritsystem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CoordinationActivityListFragment">
+    android:background="#141218"
+    android:orientation="vertical"
+    tools:context=".SubjectListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            style="@style/Widget.App.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:minHeight="?attr/actionBarSize"
+            app:menu="@menu/menu_list"
+            app:navigationIcon="@drawable/baseline_arrow_back_24"
+            app:title="Atividades da Coordenação" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_margin="24dp"
+        app:cardBackgroundColor="#1D1B20"
+        app:cardCornerRadius="8dp"
+        app:contentPaddingBottom="24dp"
+        app:contentPaddingLeft="16dp"
+        app:contentPaddingRight="24dp"
+        app:contentPaddingTop="16dp">
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/SubjectListRecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:isScrollContainer="true"
+            tools:itemCount="40"
+            tools:listitem="@layout/item_list" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- TODO: Update blank fragment layout -->
+
+</LinearLayout>

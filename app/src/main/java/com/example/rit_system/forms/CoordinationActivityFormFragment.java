@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.example.rit_system.CoordinationActivityListFragment;
 import com.example.rit_system.R;
+import com.example.rit_system.dao.CoordinationActivityDAO;
 import com.example.rit_system.entities.CoordinationActivity;
 import com.example.rit_system.models.SharedViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -126,9 +127,9 @@ public class CoordinationActivityFormFragment extends Fragment {
             coordinatioActivity.setDescription(((TextInputEditText) view.findViewById(R.id.InputDescription)).getText().toString());
 
 
-           /* CoordinationActivityDAO coordinatioActivityDAO = new CoordinationActivityDAO(getContext());
-            if(isNew) coordinatioActivityDAO.add(coordinatioActivity);
-            else coordinatioActivityDAO.update(coordinatioActivity);*/
+           CoordinationActivityDAO coordinationActivityDAO = new CoordinationActivityDAO(getContext());
+            if(isNew) coordinationActivityDAO.addCoordinationActivity(coordinatioActivity);
+            else coordinationActivityDAO.updateCoordinationActivity(coordinatioActivity.getId(), coordinatioActivity);
 
             SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
             viewModel.setItemIndex(0);

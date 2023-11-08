@@ -17,7 +17,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.rit_system.R;
+import com.example.rit_system.dao.CoordinationActivityDAO;
 import com.example.rit_system.entities.CoordinationActivity;
+import com.example.rit_system.forms.CoordinationActivityFormFragment;
 import com.example.rit_system.models.SharedViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -95,18 +97,17 @@ public class CoordinationActivityInfoFragment extends BottomSheetDialogFragment 
         }
 
         view.findViewById(R.id.EditButton).setOnClickListener(v -> {
-          /*  CoordinationActivityFormFragment coordinationActivityFormFragment = CoordinationActivityFormFragment.newInstance(coordinationActivity);
+          CoordinationActivityFormFragment coordinationActivityFormFragment = CoordinationActivityFormFragment.newInstance(coordinationActivity);
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.ActivityMain, coordinationActivityFormFragment).commit();*/
+            fragmentManager.beginTransaction().replace(R.id.ActivityMain, coordinationActivityFormFragment).commit();
         });
 
         view.findViewById(R.id.DeleteButton).setOnClickListener(v -> {
-            /*
             CoordinationActivityDAO coordinationActivityDAO = new CoordinationActivityDAO(getContext());
-            coordinationActivityDAO.delete(String.valueOf(coordinationActivity.getId()));
+            coordinationActivityDAO.deleteCoordinationActivityById(coordinationActivity.getId());
             SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
             viewModel.setItemIndex(position);
-            dismiss();*/
+            dismiss();
         });
     }
 }

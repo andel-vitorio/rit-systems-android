@@ -97,6 +97,10 @@ public class HomeFragment extends Fragment {
                 StudentListFragment studentListFragment = new StudentListFragment();
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.ActivityMain, studentListFragment).commit();
+            } else if (position == 2) {
+                CoordinationActivityListFragment coordinationActivityListFragment = new CoordinationActivityListFragment();
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.ActivityMain, coordinationActivityListFragment).commit();
             }
         }));
     }

@@ -2,15 +2,36 @@ package com.example.rit_system;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rit_system.adapters.CoordinationActivityRecyclerViewAdapter;
+import com.example.rit_system.adapters.SubjectRecyclerViewAdapter;
+import com.example.rit_system.bottom_sheets.CoordinationActivityInfoFragment;
+import com.example.rit_system.bottom_sheets.SubjectInfoFragment;
+import com.example.rit_system.dao.CoordinationActivityDAO;
+import com.example.rit_system.dao.SubjectDAO;
+import com.example.rit_system.entities.CoordinationActivity;
+import com.example.rit_system.entities.Subject;
+import com.example.rit_system.forms.CoordinationActivityFormFragment;
+import com.example.rit_system.forms.SubjectFormFragment;
+import com.example.rit_system.models.SharedViewModel;
+import com.google.android.material.appbar.MaterialToolbar;
+
+import java.util.ArrayList;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CoordinationActivityListFragment#newInstance} factory method to
+ * Use the {@link SubjectListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class CoordinationActivityListFragment extends Fragment {
@@ -34,11 +55,11 @@ public class CoordinationActivityListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CoordinationActivityListFragment.
+     * @return A new instance of fragment SubjectListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CoordinationActivityListFragment newInstance(String param1, String param2) {
-        CoordinationActivityListFragment fragment = new CoordinationActivityListFragment();
+    public static SubjectListFragment newInstance(String param1, String param2) {
+        SubjectListFragment fragment = new SubjectListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,5 +81,45 @@ public class CoordinationActivityListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_coordination_activity_list, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ((MaterialToolbar) view.findViewById(R.id.topAppBar)).setNavigationOnClickListener(v -> {
+            HomeFragment homeFragment = new HomeFragment();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.ActivityMain, homeFragment).commit();
+        });
+
+        ((MaterialToolbar) view.findViewById(R.id.topAppBar)).setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.add) {
+                CoordinationActivityFormFragment coordinationActivityFormFragment = CoordinationActivityFormFragment.newInstance(null);
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.ActivityMain, coordinationActivityFormFragment).commit();
+                return true;
+            }
+            return false;
+        });
+
+        CoordinationActivityDAO coordinationActivityDAO = new CoordinationActivityDAO(getContext());
+        ArrayList<CoordinationActivity> coordinationActivities = coordinationActivityDAO.getCoordinationActivities();
+
+        CoordinationActivityRecyclerViewAdapter coordinationActivityRecyclerViewAdapter = new CoordinationActivityRecyclerViewAdapter(coordinationActivities, position -> {
+            CoordinationActivityInfoFragment graduateCoordinationActivityInfoFragment = CoordinationActivityInfoFragment.newInstance( coordinationActivities.get(position), position);
+            graduateCoordinationActivityInfoFragment.show(getChildFragmentManager(), CoordinationActivityInfoFragment.TAG);
+        });
+
+        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel.getItemIndex().observe(getViewLifecycleOwner(), position -> {
+            coordinationActivityRecyclerViewAdapter.update(getContext());
+            coordinationActivityRecyclerViewAdapter.notifyItemRemoved(position);
+        });
+
+        RecyclerView recyclerView = view.findViewById(R.id.SubjectListRecycleView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(coordinationActivityRecyclerViewAdapter);
+
     }
 }
