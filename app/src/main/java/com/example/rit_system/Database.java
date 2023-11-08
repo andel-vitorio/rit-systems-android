@@ -49,6 +49,16 @@ public class Database extends SQLiteOpenHelper {
             "defenseDate TEXT" +
             ")";
 
+    private static final String SQL_CREATE_COORDINATION_ACTIVITIES = "CREATE TABLE coordination_activities (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "activityTitle TEXT NOT NULL, " +
+            "nameOfPersonResponsible TEXT NOT NULL, " +
+            "startDate INTEGER NOT NULL, " +
+            "endDate INTEGER NOT NULL, " +
+            "priority TEXT, " +
+            "status TEXT, " +
+            "description TEXT);";
+
 
     private static final String SQL_POPULATE_PASS_SUBJECT = "INSERT INTO subjects (code, name, description, startTime, endTime, classroom, teacherName, requirements, courseLoad, credits, numberOfVacancies)" +
             "VALUES" +
@@ -104,7 +114,22 @@ public class Database extends SQLiteOpenHelper {
             "('Olivia Johnson', '1999-03-28', '345678', 'olivia.johnson@example.com', '666-777-8888', 'Ava Jackson', 'Active', 'Project 14', 'Orientation 14'), " +
             "('Sophia Davis', '1998-07-20', '456789', 'sophia.davis@example.com', '777-888-9999', 'Ava Jackson', 'Inactive', 'Project 15', 'Orientation 15');";
 
+    private static final String SQL_POPULATE_COORDINATION_ACTIVITIES = "INSERT INTO coordination_activities (activityTitle, nameOfPersonResponsible, startDate, endDate, priority, status, description) VALUES" +
+            "('Atividade 1', 'Responsável 1', 1677298800000, 1677561600000, 'Alta', 'Concluída', 'Descrição 1')," +
+            "('Atividade 2', 'Responsável 2', 1677753600000, 1678016400000, 'Média', 'Em andamento', 'Descrição 2')," +
+            "('Atividade 3', 'Responsável 3', 1678100400000, 1678363200000, 'Baixa', 'Pendente', 'Descrição 3')," +
+            "('Atividade 4', 'Responsável 4', 1678446800000, 1678709600000, 'Alta', 'Concluída', 'Descrição 4')," +
+            "('Atividade 5', 'Responsável 5', 1678793200000, 1679056000000, 'Média', 'Em andamento', 'Descrição 5')," +
+            "('Atividade 6', 'Responsável 6', 1679146800000, 1679409600000, 'Baixa', 'Pendente', 'Descrição 6')," +
+            "('Atividade 7', 'Responsável 7', 1679492400000, 1679755200000, 'Alta', 'Concluída', 'Descrição 7')," +
+            "('Atividade 8', 'Responsável 8', 1679838000000, 1680100800000, 'Média', 'Em andamento', 'Descrição 8')," +
+            "('Atividade 9', 'Responsável 9', 1680183600000, 1680446400000, 'Baixa', 'Pendente', 'Descrição 9')," +
+            "('Atividade 10', 'Responsável 10', 1680530000000, 1680792800000, 'Alta', 'Concluída', 'Descrição 10');";
+
     private static final String SQL_DELETE_PASS_SUBJECT = "DROP TABLE IF EXISTS teacher";
+    private static final String SQL_DELETE_PASS_UNDERGRADUATE = "DROP TABLE IF EXISTS undergraduate_students";
+    private static final String SQL_DELETE_PASS_GRADUATE = "DROP TABLE IF EXISTS graduate_students";
+    private static final String SQL_DELETE_PASS_COORDINATION_ACTIVITIES= "DROP TABLE IF EXISTS coordination_activities";
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -119,10 +144,16 @@ public class Database extends SQLiteOpenHelper {
 
         db.execSQL(SQL_CREATE_GRADUATE_STUDENT);
         db.execSQL(SQL_POPULATE_GRADUATE_STUDENT);
+
+        db.execSQL(SQL_CREATE_COORDINATION_ACTIVITIES);
+        db.execSQL(SQL_POPULATE_COORDINATION_ACTIVITIES);
     }
 
     public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
         db.execSQL(SQL_DELETE_PASS_SUBJECT);
+        db.execSQL(SQL_DELETE_PASS_UNDERGRADUATE);
+        db.execSQL(SQL_DELETE_PASS_GRADUATE);
+        db.execSQL(SQL_DELETE_PASS_COORDINATION_ACTIVITIES);
         onCreate(db);
     }
 }
