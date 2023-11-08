@@ -9,12 +9,14 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rit_system.adapters.MenuRecyclerViewAdapter;
 import com.example.rit_system.adapters.SubjectRecyclerViewAdapter;
+import com.example.rit_system.bottom_sheets.SubjectInfoFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,14 +77,15 @@ public class SubjectListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         SubjectRecyclerViewAdapter.SubjectDataset[] dataset = new SubjectRecyclerViewAdapter.SubjectDataset[20];
-        for (int i = 0; i < 20; i++)
-        dataset[i] = new SubjectRecyclerViewAdapter.SubjectDataset("Cálculo I");
+        for (int i = 0; i < 20; i++) {
+            dataset[i] = new SubjectRecyclerViewAdapter.SubjectDataset("Cálculo I");
+        }
 
         RecyclerView recyclerView = view.findViewById(R.id.SubjectListRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new SubjectRecyclerViewAdapter(dataset, position -> {
-            if (position == 0) {
-            }
+            Log.d("Debug", "Abrir modal");
+            new SubjectInfoFragment().show(getChildFragmentManager(), SubjectInfoFragment.TAG);
         }));
     }
 }

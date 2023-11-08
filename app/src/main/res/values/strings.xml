@@ -18,4 +18,20 @@
     <string name="item_text">Item</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="informations">Informações</string>
+    <string name="SubjectData">Dados da Disciplina</string>
+    <string name="Code">Código:</string>
+    <string name="empty">Valor não encontrado.</string>
+    <string name="SubjectName">Nome da Disciplina</string>
+    <string name="LocalAndHour">Horário e Local</string>
+    <string name="Start">Início: </string>
+    <string name="End">Fim:</string>
+    <string name="Classroom">Sala de Aula:</string>
+    <string name="TeacherInfo">Informações do Professor</string>
+    <string name="TeacherName">Nome do Professor</string>
+    <string name="OtherInfo">Outras Informações</string>
+    <string name="PreRequisites">Pré-requisitos: </string>
+    <string name="Workload">"Carga Horária: "</string>
+    <string name="Credits">"Créditos: "</string>
+    <string name="NumberOfVacancies">Número de Vagas:</string>
 </resources>
