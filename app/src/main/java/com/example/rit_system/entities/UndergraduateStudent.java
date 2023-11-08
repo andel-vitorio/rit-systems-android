@@ -1,10 +1,12 @@
 package com.example.rit_system.entities;
 
+import java.io.Serializable;
+
 /**
  * Classe que representa um estudante de graduação, que é uma extensão da classe
  * Student.
  */
-public class UndergraduateStudent extends Student {
+public class UndergraduateStudent extends Student implements Serializable {
     private String projectName; // Nome do projeto do estudante de graduação.
     private String typeOfOrientation; // Tipo de orientação do estudante de graduação.
 

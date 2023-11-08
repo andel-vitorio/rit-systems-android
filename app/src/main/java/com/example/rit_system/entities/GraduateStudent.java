@@ -1,13 +1,14 @@
 package com.example.rit_system.entities;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * Classe que representa um estudante de pós-graduação, que é uma extensão da
  * classe Student.
  */
-public class GraduateStudent extends Student {
-    private String posgraduateProgram; // Programa de pós-graduação do estudante.
+public class GraduateStudent extends Student implements Serializable {
+    private String graduateProgram; // Programa de pós-graduação do estudante.
     private String researchTitle; // Título da pesquisa do estudante.
     private LocalDate defenseDate; // Data da defesa da pesquisa do estudante.
 
@@ -23,10 +24,10 @@ public class GraduateStudent extends Student {
     /**
      * Define o programa de pós-graduação do estudante.
      *
-     * @param posgraduateProgram O programa de pós-graduação.
+     * @param graduateProgram O programa de pós-graduação.
      */
-    public void setPosgraduateProgram(String posgraduateProgram) {
-        this.posgraduateProgram = posgraduateProgram;
+    public void setGraduateProgram(String graduateProgram) {
+        this.graduateProgram = graduateProgram;
     }
 
     /**
@@ -52,8 +53,8 @@ public class GraduateStudent extends Student {
      *
      * @return O programa de pós-graduação.
      */
-    public String getPosgraduateProgram() {
-        return posgraduateProgram;
+    public String getGraduateProgram() {
+        return graduateProgram;
     }
 
     /**
@@ -73,7 +74,7 @@ public class GraduateStudent extends Student {
     @Override
     public String toString() {
         return "GraduateStudent{" +
-                "posgraduateProgram='" + posgraduateProgram + '\'' +
+                "posgraduateProgram='" + graduateProgram + '\'' +
                 ", researchTitle='" + researchTitle + '\'' +
                 ", defenseDate=" + defenseDate +
                 "} " + super.toString();

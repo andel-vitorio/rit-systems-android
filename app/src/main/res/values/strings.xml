@@ -40,4 +40,12 @@
     <string name="cancel">Cancelar</string>
     <string name="Confirm">Confirmar</string>
     <string name="Students">Estudantes</string>
+    <string name="BasicInfo">Informações Básicas</string>
+    <string name="FullName">Nome Completo: </string>
+    <string name="EntryDate">Data de Ingresso: </string>
+    <string name="Registration">Matrícula:</string>
+    <string name="ContactInfo">Informações de Contato</string>
+    <string name="Email">E-mail:</string>
+    <string name="PhoneNumber">"Telefone: "</string>
+    <string name="OrientationInfo">Informações sobre a Orientação</string>
 </resources>

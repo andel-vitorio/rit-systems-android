@@ -13,7 +13,6 @@ import com.example.rit_system.Database;
 import com.example.rit_system.entities.GraduateStudent;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class GraduateStudentDAO {
@@ -27,7 +26,7 @@ public class GraduateStudentDAO {
 
     @SuppressLint("Range")
     public ArrayList<GraduateStudent> getGraduateStudents() {
-        ArrayList<GraduateStudent> posgraduateStudents = new ArrayList<>();
+        ArrayList<GraduateStudent> graduateStudents = new ArrayList<>();
         String[] columns = {
                 "id",
                 "name",
@@ -37,12 +36,12 @@ public class GraduateStudentDAO {
                 "phoneNumber",
                 "nameOfMentee",
                 "status",
-                "posgraduateProgram",
+                "graduateProgram",
                 "researchTitle",
                 "defenseDate"
         };
 
-        Cursor cursor = database.query("posgraduate_students", columns, null, null, null, null, null);
+        Cursor cursor = database.query("graduate_students", columns, null, null, null, null, null);
 
         while (cursor.moveToNext()) {
             GraduateStudent student = new GraduateStudent();
@@ -57,16 +56,16 @@ public class GraduateStudentDAO {
             student.setPhoneNumber(cursor.getString(cursor.getColumnIndex("phoneNumber")));
             student.setNameOfMentee(cursor.getString(cursor.getColumnIndex("nameOfMentee")));
             student.setStatus(cursor.getString(cursor.getColumnIndex("status")));
-            student.setPosgraduateProgram(cursor.getString(cursor.getColumnIndex("posgraduateProgram")));
+            student.setGraduateProgram(cursor.getString(cursor.getColumnIndex("graduateProgram")));
             student.setResearchTitle(cursor.getString(cursor.getColumnIndex("researchTitle")));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 long defenseDateMillis = cursor.getLong(cursor.getColumnIndex("defenseDate"));
                 student.setDefenseDate(LocalDate.ofEpochDay(defenseDateMillis / (24 * 60 * 60 * 1000)));
             }
-            posgraduateStudents.add(student);
+            graduateStudents.add(student);
         }
 
-        return posgraduateStudents;
+        return graduateStudents;
     }
 
     public boolean addGraduateStudent(GraduateStudent student) {
@@ -80,14 +79,14 @@ public class GraduateStudentDAO {
         values.put("phoneNumber", student.getPhoneNumber());
         values.put("nameOfMentee", student.getNameOfMentee());
         values.put("status", student.getStatus());
-        values.put("posgraduateProgram", student.getPosgraduateProgram());
+        values.put("graduateProgram", student.getGraduateProgram());
         values.put("researchTitle", student.getResearchTitle());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             values.put("defenseDate", student.getDefenseDate().toEpochDay() * (24 * 60 * 60 * 1000));
         }
 
         try {
-            long rowId = database.insert("posgraduate_students", null, values);
+            long rowId = database.insert("graduate_students", null, values);
             if (rowId != -1) {
                 Toast.makeText(context, "Estudante de pós-graduação salvo!", Toast.LENGTH_SHORT).show();
                 return true;
@@ -112,7 +111,7 @@ public class GraduateStudentDAO {
         values.put("phoneNumber", student.getPhoneNumber());
         values.put("nameOfMentee", student.getNameOfMentee());
         values.put("status", student.getStatus());
-        values.put("posgraduateProgram", student.getPosgraduateProgram());
+        values.put("graduateProgram", student.getGraduateProgram());
         values.put("researchTitle", student.getResearchTitle());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             values.put("defenseDate", student.getDefenseDate().toEpochDay() * (24 * 60 * 60 * 1000));
@@ -122,7 +121,7 @@ public class GraduateStudentDAO {
         String[] whereArgs = {String.valueOf(id)};
 
         try {
-            int rowsAffected = database.update("posgraduate_students", values, whereClause, whereArgs);
+            int rowsAffected = database.update("graduate_students", values, whereClause, whereArgs);
             if (rowsAffected > 0) {
                 Toast.makeText(context, "Estudante de pós-graduação atualizado!", Toast.LENGTH_SHORT).show();
                 return true;
@@ -147,14 +146,14 @@ public class GraduateStudentDAO {
                 "phoneNumber",
                 "nameOfMentee",
                 "status",
-                "posgraduateProgram",
+                "graduateProgram",
                 "researchTitle",
                 "defenseDate"
         };
         String selection = "id = ?";
         String[] selectionArgs = {String.valueOf(id)};
 
-        Cursor cursor = database.query("posgraduate_students", columns, selection, selectionArgs, null, null, null);
+        Cursor cursor = database.query("graduate_students", columns, selection, selectionArgs, null, null, null);
 
         if (cursor.moveToFirst()) {
             GraduateStudent student = new GraduateStudent();
@@ -169,7 +168,7 @@ public class GraduateStudentDAO {
             student.setPhoneNumber(cursor.getString(cursor.getColumnIndex("phoneNumber")));
             student.setNameOfMentee(cursor.getString(cursor.getColumnIndex("nameOfMentee")));
             student.setStatus(cursor.getString(cursor.getColumnIndex("status")));
-            student.setPosgraduateProgram(cursor.getString(cursor.getColumnIndex("posgraduateProgram")));
+            student.setGraduateProgram(cursor.getString(cursor.getColumnIndex("graduateProgram")));
             student.setResearchTitle(cursor.getString(cursor.getColumnIndex("researchTitle")));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 long defenseDateMillis = cursor.getLong(cursor.getColumnIndex("defenseDate"));
@@ -186,7 +185,7 @@ public class GraduateStudentDAO {
         String[] whereArgs = {String.valueOf(id)};
 
         try {
-            int rowsDeleted = database.delete("posgraduate_students", whereClause, whereArgs);
+            int rowsDeleted = database.delete("graduate_students", whereClause, whereArgs);
             if (rowsDeleted > 0) {
                 Toast.makeText(context, "Estudante de pós-graduação deletado com sucesso!", Toast.LENGTH_SHORT).show();
                 return true;

@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search"
+        android:title="@string/search"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/baseline_search_24"/>
+
+    <item
+        android:id="@+id/add_graduate"
+        android:title="Adicionar Pós-Graduando"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/add_undergraduate"
+        android:title="Adicionar Graduando"
+        app:showAsAction="never" />
+
+</menu>

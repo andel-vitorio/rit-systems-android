@@ -1,5 +1,6 @@
 package com.example.rit_system.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,43 +12,42 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rit_system.R;
+import com.example.rit_system.dao.GraduateStudentDAO;
+import com.example.rit_system.dao.SubjectDAO;
+import com.example.rit_system.dao.UndergraduateStudentDAO;
+import com.example.rit_system.entities.GraduateStudent;
+import com.example.rit_system.entities.Student;
+import com.example.rit_system.entities.Subject;
+import com.example.rit_system.entities.UndergraduateStudent;
 
-public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerViewAdapter.ViewHolder> {
+import java.util.ArrayList;
+
+public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecyclerViewAdapter.ViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
-    private final MenuDataset[] localDataSet;
-    private OnItemClickListener listener;
+    private ArrayList<Student> students;
+    private final OnItemClickListener listener;
 
+    public void update(Context context) {
+        GraduateStudentDAO graduateStudentDAO = new GraduateStudentDAO(context);
+        ArrayList<GraduateStudent> graduateStudents = graduateStudentDAO.getGraduateStudents();
 
-    public static class MenuDataset {
-        private String label;
-        private int iconId;
+        UndergraduateStudentDAO undergraduateStudentDAO = new UndergraduateStudentDAO(context);
+        ArrayList<UndergraduateStudent> undergraduateStudents = undergraduateStudentDAO.getUndergraduateStudents();
 
-        public MenuDataset() {}
+        students = new ArrayList<>();
 
-        public MenuDataset(String label, int iconId) {
-            this.iconId = iconId;
-            this.label = label;
+        if (undergraduateStudents != null) {
+            students.addAll(undergraduateStudents);
         }
 
-        public void setIconId(int iconId) {
-            this.iconId = iconId;
-        }
-
-        public void setLabel(String label) {
-            this.label = label;
-        }
-
-        public int getIconId() {
-            return iconId;
-        }
-
-        public String getLabel() {
-            return label;
+        if (graduateStudents != null) {
+            students.addAll(graduateStudents);
         }
     }
+
 
     /**
      * Provide a reference to the type of views that you are using
@@ -75,8 +75,8 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
         }
     }
 
-    public MenuRecyclerViewAdapter(MenuDataset[] dataSet, OnItemClickListener listener) {
-        localDataSet = dataSet;
+    public StudentRecyclerViewAdapter(ArrayList<Student> students, OnItemClickListener listener) {
+        this.students = students;
         this.listener = listener;
     }
 
@@ -86,7 +86,7 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.menu_item, viewGroup, false);
+                .inflate(R.layout.item_list, viewGroup, false);
 
         return new ViewHolder(view);
     }
@@ -99,8 +99,7 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
         // contents of the view with that element
         Log.d("AdapterDebug", "Binding view at position: " + position);
 
-        viewHolder.getLabel().setText(localDataSet[position].getLabel());
-        viewHolder.getIcon().setImageResource(localDataSet[position].getIconId());
+        viewHolder.getLabel().setText(students.get(position).getName());
 
         viewHolder.itemView.setOnClickListener(v -> {
             if (listener != null) {
@@ -112,6 +111,6 @@ public class MenuRecyclerViewAdapter extends RecyclerView.Adapter<MenuRecyclerVi
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return students.size();
     }
 }

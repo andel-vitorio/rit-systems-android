@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:elevation="10dp"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/menu_list"
+            app:menu="@menu/menu_student_list"
             app:navigationIcon="@drawable/baseline_arrow_back_24"
             app:title="@string/Students" />
 

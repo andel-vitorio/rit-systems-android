@@ -14,11 +14,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.rit_system.adapters.StudentRecyclerViewAdapter;
 import com.example.rit_system.adapters.SubjectRecyclerViewAdapter;
+import com.example.rit_system.bottom_sheets.GraduateStudentInfoFragment;
 import com.example.rit_system.bottom_sheets.SubjectInfoFragment;
+import com.example.rit_system.bottom_sheets.UndergraduateStudentInfoFragment;
+import com.example.rit_system.dao.GraduateStudentDAO;
 import com.example.rit_system.dao.SubjectDAO;
+import com.example.rit_system.dao.UndergraduateStudentDAO;
+import com.example.rit_system.entities.GraduateStudent;
+import com.example.rit_system.entities.Student;
 import com.example.rit_system.entities.Subject;
+import com.example.rit_system.entities.UndergraduateStudent;
+import com.example.rit_system.forms.GraduateStudentFormFragment;
 import com.example.rit_system.forms.SubjectFormFragment;
+import com.example.rit_system.forms.UndergraduateStudentFormFragment;
 import com.example.rit_system.models.SharedViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -87,6 +97,58 @@ public class StudentListFragment extends Fragment {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.ActivityMain, homeFragment).commit();
         });
+
+        ((MaterialToolbar) view.findViewById(R.id.topAppBar)).setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.add_graduate) {
+                GraduateStudentFormFragment studentFormFragment = GraduateStudentFormFragment.newInstance(null);
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.ActivityMain, studentFormFragment).commit();
+                return true;
+            } else if (item.getItemId() == R.id.add_undergraduate) {
+                UndergraduateStudentFormFragment studentFormFragment = UndergraduateStudentFormFragment.newInstance(null);
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.ActivityMain, studentFormFragment).commit();
+                return true;
+            }
+            return false;
+        });
+
+        GraduateStudentDAO graduateStudentDAO = new GraduateStudentDAO(getContext());
+        ArrayList<GraduateStudent> graduateStudents = graduateStudentDAO.getGraduateStudents();
+
+        UndergraduateStudentDAO undergraduateStudentDAO = new UndergraduateStudentDAO(getContext());
+        ArrayList<UndergraduateStudent> undergraduateStudents = undergraduateStudentDAO.getUndergraduateStudents();
+
+        ArrayList<Student> students = new ArrayList<>();
+
+        if (undergraduateStudents != null) {
+            students.addAll(undergraduateStudents);
+        }
+
+        if (graduateStudents != null) {
+            students.addAll(graduateStudents);
+        }
+
+
+        StudentRecyclerViewAdapter studentRecyclerViewAdapter = new StudentRecyclerViewAdapter(students, position -> {
+            if (students.get(position) instanceof GraduateStudent) {
+                GraduateStudentInfoFragment graduateStudentInfoFragment = GraduateStudentInfoFragment.newInstance( (GraduateStudent) students.get(position), position);
+                graduateStudentInfoFragment.show(getChildFragmentManager(), GraduateStudentInfoFragment.TAG);
+            } else {
+                UndergraduateStudentInfoFragment undergraduateStudentInfoFragment = UndergraduateStudentInfoFragment.newInstance( (UndergraduateStudent) students.get(position), position);
+                undergraduateStudentInfoFragment.show(getChildFragmentManager(), UndergraduateStudentInfoFragment.TAG);
+            }
+        });
+
+        SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        viewModel.getItemIndex().observe(getViewLifecycleOwner(), position -> {
+            studentRecyclerViewAdapter.update(getContext());
+            studentRecyclerViewAdapter.notifyItemRemoved(position);
+        });
+
+        RecyclerView recyclerView = view.findViewById(R.id.SubjectListRecycleView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(studentRecyclerViewAdapter);
 
     }
 }
