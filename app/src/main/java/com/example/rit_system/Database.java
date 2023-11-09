@@ -146,11 +146,32 @@ public class Database extends SQLiteOpenHelper {
             "('Paper 5', 'Author 5', 1678793200000, 'Keyword 5', 'Description 5', 'Category 1', 'http://example.com/paper5')," +
             "('Paper 6', 'Author 6', 1679146800000, 'Keyword 6', 'Description 6', 'Category 2', 'http://example.com/paper6');";
 
+    private static final String SQL_CREATE_TEACHER = "CREATE TABLE teachers (" +
+            "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "name TEXT," +
+            "birthDay TEXT," +
+            "identificationNumber TEXT," +
+            "email TEXT," +
+            "phone TEXT," +
+            "trainingArea TEXT," +
+            "yearsOfExperience INTEGER" +
+            ")";
+
+    private static final String SQL_POPULATE_TEACHER = "INSERT INTO teachers (name, birthDay, identificationNumber, email, phone, trainingArea, yearsOfExperience)" +
+            "VALUES" +
+            "('John Doe', '1990-05-15', '123456', 'john.doe@example.com', '123-456-7890', 'Mathematics', 5)," +
+            "('Alice Smith', '1985-02-20', '789012', 'alice.smith@example.com', '987-654-3210', 'Physics', 8)," +
+            "('Bob Johnson', '1988-09-10', '456789', 'bob.johnson@example.com', '555-555-5555', 'Chemistry', 6)," +
+            "('Emily Wilson', '1992-03-25', '234567', 'emily.wilson@example.com', '444-555-6666', 'Biology', 3)," +
+            "('Michael Brown', '1991-11-12', '345678', 'michael.brown@example.com', '555-666-7777', 'English', 7);";
+
+
     private static final String SQL_DELETE_PAPER = "DROP TABLE IF EXISTS papers";
-    private static final String SQL_DELETE_PASS_SUBJECT = "DROP TABLE IF EXISTS teacher";
+    private static final String SQL_DELETE_PASS_SUBJECT = "DROP TABLE IF EXISTS subjects";
     private static final String SQL_DELETE_PASS_UNDERGRADUATE = "DROP TABLE IF EXISTS undergraduate_students";
     private static final String SQL_DELETE_PASS_GRADUATE = "DROP TABLE IF EXISTS graduate_students";
     private static final String SQL_DELETE_PASS_COORDINATION_ACTIVITIES= "DROP TABLE IF EXISTS coordination_activities";
+    private static final String SQL_DELETE_TEACHER = "DROP TABLE IF EXISTS teachers";
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -171,6 +192,9 @@ public class Database extends SQLiteOpenHelper {
 
         db.execSQL(SQL_CREATE_PAPER);
         db.execSQL(SQL_POPULATE_PAPER);
+
+        db.execSQL(SQL_CREATE_TEACHER);
+        db.execSQL(SQL_POPULATE_TEACHER);
     }
 
     public void onUpgrade( SQLiteDatabase db, int oldVersion, int newVersion ) {
@@ -179,6 +203,7 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_PASS_GRADUATE);
         db.execSQL(SQL_DELETE_PASS_COORDINATION_ACTIVITIES);
         db.execSQL(SQL_DELETE_PAPER);
+        db.execSQL(SQL_DELETE_TEACHER);
         onCreate(db);
     }
 }

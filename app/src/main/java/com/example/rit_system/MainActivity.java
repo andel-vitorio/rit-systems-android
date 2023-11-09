@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
             else if ( id == R.id.teacher_menu_item) {
-                Snackbar.make(navigationBarView, "Professor selecionado!", Snackbar.LENGTH_SHORT).show();
+                TeacherListFragment teacherListFragment = new TeacherListFragment();
+                FragmentManager fragmentManager = this.getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.ActivityMain, teacherListFragment).commit();
                 return  true;
             }
             else return false;
