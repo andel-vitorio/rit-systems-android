@@ -38,7 +38,7 @@
         app:contentPaddingTop="16dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/SubjectListRecycleView"
+            android:id="@+id/TeacherListRecycleView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"

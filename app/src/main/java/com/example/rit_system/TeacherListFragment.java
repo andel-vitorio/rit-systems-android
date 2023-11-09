@@ -75,7 +75,7 @@ public class TeacherListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_subject_list, container, false);
+        return inflater.inflate(R.layout.fragment_teacher_list, container, false);
     }
 
     @Override
@@ -90,37 +90,31 @@ public class TeacherListFragment extends Fragment {
 
         ((MaterialToolbar) view.findViewById(R.id.topAppBar)).setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.add) {
-                /*
                 TeacherFormFragment subjectFormFragment = TeacherFormFragment.newInstance(null);
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.ActivityMain, subjectFormFragment).commit();
                 return true;
-
-                 */
             }
             return false;
         });
 
-        /*
-        TeacherDAO subjectDAO = new TeacherDAO(getContext());
-        ArrayList<Teacher> subjects = subjectDAO.getList();
+        TeacherDAO teacherDAO = new TeacherDAO(getContext());
+        ArrayList<Teacher> teachers = teacherDAO.getList();
 
-        TeacherRecyclerViewAdapter subjectRecyclerViewAdapter = new TeacherRecyclerViewAdapter(subjects, position -> {
-            TeacherInfoFragment subjectInfoFragment = TeacherInfoFragment.newInstance(subjects.get(position), position);
-            subjectInfoFragment.show(getChildFragmentManager(), TeacherInfoFragment.TAG);
+        TeacherRecyclerViewAdapter teacherRecyclerViewAdapter = new TeacherRecyclerViewAdapter(teachers, position -> {
+            TeacherInfoFragment teacherInfoFragment = TeacherInfoFragment.newInstance(teachers.get(position), position);
+            teacherInfoFragment.show(getChildFragmentManager(), TeacherInfoFragment.TAG);
         });
 
         SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         viewModel.getItemIndex().observe(getViewLifecycleOwner(), position -> {
-            subjectRecyclerViewAdapter.update(getContext());
-            subjectRecyclerViewAdapter.notifyItemRemoved(position);
+            teacherRecyclerViewAdapter.update(getContext());
+            teacherRecyclerViewAdapter.notifyItemRemoved(position);
         });
 
         RecyclerView recyclerView = view.findViewById(R.id.TeacherListRecycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(subjectRecyclerViewAdapter);
-
-         */
+        recyclerView.setAdapter(teacherRecyclerViewAdapter);
 
     }
 }

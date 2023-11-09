@@ -87,27 +87,27 @@ public class TeacherInfoFragment extends BottomSheetDialogFragment {
         if (teacher != null) {
             Log.d("Teacher", teacher.toString());
 
-            //((TextView) (view.findViewById(R.id.TeacherCode))).setText(teacher.getCode());
+            ((TextView) (view.findViewById(R.id.FullName))).setText(teacher.getName());
+            ((TextView) (view.findViewById(R.id.BirthDay))).setText(teacher.getBirthDay().toString());
+            ((TextView) (view.findViewById(R.id.IdentificationNumber))).setText(teacher.getIndentificatorNumber());
+            ((TextView) (view.findViewById(R.id.Email))).setText(teacher.getEmail());
+            ((TextView) (view.findViewById(R.id.Telefone))).setText(teacher.getPhone());
+            ((TextView) (view.findViewById(R.id.TrainingArea))).setText(teacher.getTrainingArea());
+            ((TextView) (view.findViewById(R.id.YearOfExperience))).setText(String.valueOf(teacher.getYearsOfExperience()));
         }
 
         view.findViewById(R.id.EditButton).setOnClickListener(v -> {
-            /*
             TeacherFormFragment teacherFormFragment = TeacherFormFragment.newInstance(teacher);
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.ActivityMain, teacherFormFragment).commit();
-
-             */
         });
 
         view.findViewById(R.id.DeleteButton).setOnClickListener(v -> {
-            /*
             TeacherDAO teacherDAO = new TeacherDAO(getContext());
             teacherDAO.delete(String.valueOf(teacher.getId()));
             SharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
             viewModel.setItemIndex(position);
             dismiss();
-
-             */
         });
     }
 }

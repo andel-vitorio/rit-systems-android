@@ -150,14 +150,14 @@ public class Database extends SQLiteOpenHelper {
             "id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "name TEXT," +
             "birthDay TEXT," +
-            "indentificatorNumber TEXT," +
+            "identificationNumber TEXT," +
             "email TEXT," +
             "phone TEXT," +
             "trainingArea TEXT," +
             "yearsOfExperience INTEGER" +
             ")";
 
-    private static final String SQL_POPULATE_TEACHER = "INSERT INTO teachers (name, birthDay, indentificatorNumber, email, phone, trainingArea, yearsOfExperience)" +
+    private static final String SQL_POPULATE_TEACHER = "INSERT INTO teachers (name, birthDay, identificationNumber, email, phone, trainingArea, yearsOfExperience)" +
             "VALUES" +
             "('John Doe', '1990-05-15', '123456', 'john.doe@example.com', '123-456-7890', 'Mathematics', 5)," +
             "('Alice Smith', '1985-02-20', '789012', 'alice.smith@example.com', '987-654-3210', 'Physics', 8)," +

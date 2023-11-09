@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.rit_system.R;
+import com.example.rit_system.dao.TeacherDAO;
 import com.example.rit_system.entities.Teacher;
 
 import java.util.ArrayList;
@@ -25,11 +26,8 @@ public class TeacherRecyclerViewAdapter extends RecyclerView.Adapter<TeacherRecy
     private OnItemClickListener listener;
 
     public void update(Context context) {
-        /*
         TeacherDAO subjectDAO = new TeacherDAO(context);
         subjects = subjectDAO.getList();
-
-         */
     }
 
     /**

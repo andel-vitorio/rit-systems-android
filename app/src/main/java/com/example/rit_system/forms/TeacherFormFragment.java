@@ -20,12 +20,14 @@ import com.example.rit_system.HomeFragment;
 import com.example.rit_system.R;
 import com.example.rit_system.TeacherListFragment;
 import com.example.rit_system.bottom_sheets.TeacherInfoFragment;
+import com.example.rit_system.dao.TeacherDAO;
 import com.example.rit_system.entities.Teacher;
 import com.example.rit_system.models.SharedViewModel;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Objects;
@@ -97,8 +99,13 @@ public class TeacherFormFragment extends Fragment {
         });
 
         if (teacher != null) {
-            //((TextInputEditText) view.findViewById(R.id.InputTeacherCode)).setText(teacher.getCode());
-
+            ((TextInputEditText) view.findViewById(R.id.InputFullName)).setText(teacher.getName());
+            ((TextInputEditText) view.findViewById(R.id.InputBirthDay)).setText(teacher.getBirthDay().toString());
+            ((TextInputEditText) view.findViewById(R.id.InputIdentificationNumber)).setText(teacher.getIndentificatorNumber());
+            ((TextInputEditText) view.findViewById(R.id.InputEmail)).setText(teacher.getEmail());
+            ((TextInputEditText) view.findViewById(R.id.InputPhoneNumber)).setText(teacher.getPhone());
+            ((TextInputEditText) view.findViewById(R.id.InputTrainingArea)).setText(teacher.getTrainingArea());
+            ((TextInputEditText) view.findViewById(R.id.InputYearOfExperience)).setText( String.valueOf(teacher.getYearsOfExperience()));
         }
 
         view.findViewById(R.id.CancelButton).setOnClickListener(v -> {
@@ -108,47 +115,42 @@ public class TeacherFormFragment extends Fragment {
         });
 
         view.findViewById(R.id.AddButton).setOnClickListener(v -> {
-            /*
-            String code = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputTeacherCode)).getText());
-            String name = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputTeacherName)).getText());
-            String description = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputTeacherDescription)).getText());
-            LocalTime startHour = null, endHour = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                String startHourText = ((TextInputEditText) view.findViewById(R.id.InputStartHourTeacher)).getText().toString();
-                String endHourText = ((TextInputEditText) view.findViewById(R.id.InputEndHourTeacher)).getText().toString();
-
-                try {
-                    // Adicione os segundos e nanos segundos zerados
-                    startHour = LocalTime.parse(startHourText);
-                    endHour = LocalTime.parse(endHourText);
-                } catch (DateTimeParseException e) {
-                    // Trate exceções de formato inválido, se necessário
-                    Log.e("ConversionError", "Formato de hora inválido");
-                }
-            }
-
-            String classroom = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputClassroomTeacher)).getText());
-            String teacherName = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputTeacherNameTeacher)).getText());
-            String requirements = String.valueOf(((TextInputEditText) view.findViewById(R.id.InputPrerequisites)).getText());
-            int courseLoad = Integer.valueOf(String.valueOf(((TextInputEditText) view.findViewById(R.id.InputCourseLoadTeacher)).getText()));
-            int credits = Integer.valueOf(String.valueOf(((TextInputEditText) view.findViewById(R.id.InputCreditsTeacher)).getText()));
-            int numberOfVancancies = Integer.valueOf(String.valueOf(((TextInputEditText) view.findViewById(R.id.InputNumberVancanciesTeacher)).getText()));
 
             boolean isNew = (teacher == null);
 
             if (isNew) teacher = new Teacher();
 
-            teacher.setName(name);
-            teacher.setCode(code);
-            teacher.setDescription(description);
-            teacher.setStartTime(startHour);
-            teacher.setEndTime(endHour);
-            teacher.setClassroom(classroom);
-            teacher.setTeacherName(teacherName);
-            teacher.setRequirements(requirements);
-            teacher.setCourseLoad(courseLoad);
-            teacher.setCredits(credits);
-            teacher.setNumberOfVacancies(numberOfVancancies);
+            TextInputEditText fullNameEditText = view.findViewById(R.id.InputFullName);
+            TextInputEditText birthDayEditText = view.findViewById(R.id.InputBirthDay);
+            TextInputEditText identificationNumberEditText = view.findViewById(R.id.InputIdentificationNumber);
+            TextInputEditText emailEditText = view.findViewById(R.id.InputEmail);
+            TextInputEditText phoneNumberEditText = view.findViewById(R.id.InputPhoneNumber);
+            TextInputEditText trainingAreaEditText = view.findViewById(R.id.InputTrainingArea);
+            TextInputEditText yearOfExperienceEditText = view.findViewById(R.id.InputYearOfExperience);
+
+            String fullName = Objects.requireNonNull(fullNameEditText.getText()).toString();
+            String birthDayString = Objects.requireNonNull(birthDayEditText.getText()).toString();
+            String identificationNumber = Objects.requireNonNull(identificationNumberEditText.getText()).toString();
+            String email = Objects.requireNonNull(emailEditText.getText()).toString();
+            String phoneNumber = Objects.requireNonNull(phoneNumberEditText.getText()).toString();
+            String trainingArea = Objects.requireNonNull(trainingAreaEditText.getText()).toString();
+
+            int yearsOfExperience = Integer.parseInt(Objects.requireNonNull(yearOfExperienceEditText.getText()).toString());
+
+            LocalDate birthDay = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                birthDay = LocalDate.parse(birthDayString);
+            }
+
+            teacher.setName(fullName);
+            teacher.setBirthDay(birthDay);
+            teacher.setIndentificatorNumber(identificationNumber);
+            teacher.setEmail(email);
+            teacher.setPhone(phoneNumber);
+            teacher.setTrainingArea(trainingArea);
+            teacher.setYearsOfExperience(yearsOfExperience);
+
+            System.out.println(teacher + " " + teacher.getId());
 
             TeacherDAO teacherDAO = new TeacherDAO(getContext());
             if(isNew) teacherDAO.add(teacher);
@@ -160,8 +162,6 @@ public class TeacherFormFragment extends Fragment {
             TeacherListFragment teacherListFragment = new TeacherListFragment();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.ActivityMain, teacherListFragment).commit();
-
-             */
         });
     }
 }
