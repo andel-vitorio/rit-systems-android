@@ -49,11 +49,6 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(navigationBarView, "Professor selecionado!", Snackbar.LENGTH_SHORT).show();
                 return  true;
             }
-
-            else if (id == R.id.activities_menu_item) {
-                Snackbar.make(navigationBarView, "Atividades selecionado!", Snackbar.LENGTH_SHORT).show();
-                return true;
-            }
             else return false;
         });
     }

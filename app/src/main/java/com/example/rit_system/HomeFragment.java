@@ -13,10 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.rit_system.adapters.MenuRecyclerViewAdapter;
 import com.example.rit_system.adapters.SubjectRecyclerViewAdapter;
+import com.example.rit_system.dao.CoordinationActivityDAO;
+import com.example.rit_system.dao.GraduateStudentDAO;
+import com.example.rit_system.dao.PaperDAO;
+import com.example.rit_system.dao.SubjectDAO;
+import com.example.rit_system.dao.UndergraduateStudentDAO;
 import com.example.rit_system.databinding.FragmentHomeBinding;
+import com.example.rit_system.entities.CoordinationActivity;
+import com.example.rit_system.entities.GraduateStudent;
+import com.example.rit_system.entities.Subject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -107,5 +116,22 @@ public class HomeFragment extends Fragment {
                 fragmentManager.beginTransaction().replace(R.id.ActivityMain, papersListFragment).commit();
             }
         }));
+
+        SubjectDAO subjectDAO = new SubjectDAO(getContext());
+        PaperDAO paperDAO = new PaperDAO(getContext());
+        GraduateStudentDAO graduateStudentDAO = new GraduateStudentDAO(getContext());
+        UndergraduateStudentDAO undergraduateStudentDAO = new UndergraduateStudentDAO(getContext());
+        CoordinationActivityDAO coordinationActivityDAO = new CoordinationActivityDAO(getContext());
+
+
+        //((TextView) view.findViewById(R.id.teacher_amount_tv)).setText(subjectDAO.getList().size());
+        binding.subjectsAmountTv.setText(String.valueOf(subjectDAO.getList().size()));
+        binding.studentAmountTv.setText(String.valueOf(
+                graduateStudentDAO.getGraduateStudents().size() + undergraduateStudentDAO.getUndergraduateStudents().size()
+        ));
+        binding.coordActivityAmountTv.setText(String.valueOf(coordinationActivityDAO.getCoordinationActivities().size()));
+        binding.papersAmountTv.setText(String.valueOf(paperDAO.getPapers().size()));
+
     }
+
 }
